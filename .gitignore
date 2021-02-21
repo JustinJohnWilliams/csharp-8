@@ -1,3 +1,4 @@
+output.txt
 *.so
 .vs/config/applicationhost.config
 .vs/*
