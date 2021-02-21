@@ -1,0 +1,23 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+    - id: check-added-large-files
+    - id: check-case-conflict
+    - id: check-merge-conflict
+    - id: check-yaml
+    - id: detect-private-key
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+    - id: mixed-line-ending
+      args: ['--fix=lf']
+##### Commenting out until we can resolve the error:
+#  E0001 Error transforming template: unhashable type: 'dict_node'
+#  template.yaml:1:1
+
+  - repo: https://github.com/aws-cloudformation/cfn-python-lint
+    rev: v0.33.2 # The version of cfn-lint to use.
+    hooks:
+      - id: cfn-python-lint
+        files: .*\.(yml|yaml)$
+        exclude: (.pre-commit-config.yaml|buildspec.yml|pipeline/*|.aws-sam/*) # Todo: Fix those files and remove from exlude.
