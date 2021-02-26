@@ -1,5 +1,6 @@
 using System.Text;
 using System.Linq;
+using System;
 
 public static class CardDescriber
 {
@@ -45,5 +46,26 @@ public static class CardDescriber
                         || name == CardSuit.Spades)
                             => suit.ToString().ToUpper(),
             _               => "??"
+        };
+
+    public static int CalculateValue(Card card) =>
+        card switch
+        {
+            { Value: CardValue.Ace }    => 1,
+            { Value: CardValue.Two }    => 2,
+            { Value: CardValue.Three }  => 3,
+            { Value: CardValue.Four }   => 4,
+            { Value: CardValue.Five }   => 5,
+            { Value: CardValue.Six }    => 6,
+            { Value: CardValue.Seven }  => 7,
+            { Value: CardValue.Eight }  => 8,
+            { Value: CardValue.Nine }   => 9,
+            { Value: CardValue.Ten }    => 10,
+            { Value: CardValue.Jack }   => 11,
+            { Value: CardValue.Queen }  => 12,
+            { Value: CardValue.King }   => 13,
+            _                           => throw new ArgumentOutOfRangeException(
+                                            message: "card value is unknown",
+                                            paramName: nameof(card.Value))
         };
 }

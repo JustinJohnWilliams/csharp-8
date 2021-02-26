@@ -33,6 +33,8 @@ public class Card
 
     public CardValue Value { get; set; }
 
+    public int CardValue => CardDescriber.CalculateValue(this);
+
     public override string ToString()
     {
         return CardDescriber.Describe(this);
