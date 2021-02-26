@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace cshaprp_8
 {
@@ -6,26 +8,24 @@ namespace cshaprp_8
     {
         static void Main(string[] args)
         {
-            ILogger fileLogger = new FileLogger();
             ILogger consoleLogger = new ConsoleLogger();
 
-            Console.WriteLine("-------------------------BEGIN PATTERN MATCHING-------------------------");
-            var card = CardDescriber.Describe(CardValue.Eight, CardSuit.Hearts);
-            Console.WriteLine(card);
+            consoleLogger.LogMessage($"Player 1 has {Game.Player1.Hand.Count}");
+            consoleLogger.LogMessage($"Player 2 has {Game.Player2.Hand.Count}");
 
-            card = CardDescriber.Describe(CardValue.Joker, CardSuit.Unknown);
-            Console.WriteLine(card);
+            while(Game.Player1.Hand.Any())
+            {
+                consoleLogger.LogMessage($"Player 1 Draws {Game.Player1.Draw()}");
+                consoleLogger.LogMessage($"Player 2 Draws {Game.Player2.Draw()}");
+            }
 
-            card = CardDescriber.Describe((CardValue)1234, (CardSuit)5678);
-            Console.WriteLine(card);
-            Console.WriteLine("-------------------------END PATTERN MATCHING-------------------------");
+            Console.ReadLine();
 
-            consoleLogger.LogMessage("-------------------------BEGIN DEFAULT INTERFACE-------------------------");
-            fileLogger.LogMessage("Test Message");
-            consoleLogger.LogMessage("Test Message");
-            fileLogger.LogException(new ArgumentException("ArgA cannot be null", "ArgA"));
-            consoleLogger.LogException(new ArgumentException("ArgA cannot be null", "ArgA"));
-            consoleLogger.LogMessage("-------------------------END DEFAULT INTERFACE-------------------------");
+            consoleLogger.LogMessage($"Attempting a new draw....");
+            consoleLogger.LogMessage($"Player 1 Draws {Game.Player1.Draw()}");
+
+            consoleLogger.LogMessage($"Player 1 has {Game.Player1.Hand.Count}");
+            consoleLogger.LogMessage($"Player 2 has {Game.Player2.Hand.Count}");
         }
     }
 }
