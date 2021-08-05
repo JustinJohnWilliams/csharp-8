@@ -54,7 +54,7 @@ public class Player
     public int Age { get; private set; }
     public string Name { get; private set; }
     public Queue<Card> Hand { get; private set; } = new Queue<Card>();
-    public Card Draw() => Hand.Any() ? Hand.Dequeue() : throw new EmptyHandException(Name);
+    public Card PlayCard() => Hand.Any() ? Hand.Dequeue() : throw new EmptyHandException(Name);
 }
 
 public static class Game
@@ -62,11 +62,7 @@ public static class Game
     static Game()
     {
         Shuffle();
-        while(CardDeck.Any())
-        {
-            Player1.Hand.Enqueue(Draw());
-            Player2.Hand.Enqueue(Draw());
-        }
+        Deal();
     }
 
     private static Random Rand = new Random();
@@ -81,7 +77,18 @@ public static class Game
 
     public static Card Draw() => CardDeck.Pop();
 
-    public static Stack<Card> Shuffle()
+    public static bool IsOver() => !Player1.Hand.Any() || !Player2.Hand.Any();
+
+    public static bool IsNotOver() => !IsOver();
+
+    public static (Card Player1Card, Card Player2Card) PlayRound() => (Player1.PlayCard(), Player2.PlayCard());
+
+    public static void EvaluateRound((Card Player1Card, Card Player2Card) round)
+    {
+
+    }
+
+    private static Stack<Card> Shuffle()
     {
         var deck = CardDeck.ToList();
         if(!deck.Any())
@@ -127,10 +134,19 @@ public static class Game
                 new Card { Suit = CardSuit.Hearts, Value = kind },
                 new Card { Suit = CardSuit.Spades, Value = kind } };
     }
+
+    private static void Deal()
+    {
+        while(CardDeck.Any())
+        {
+            Player1.Hand.Enqueue(Draw());
+            Player2.Hand.Enqueue(Draw());
+        }
+    }
 }
 
 public class EmptyHandException : Exception
 {
     public EmptyHandException(string playerName)
-        : base($"{playerName} has no more cards left to draw!") { }
+        : base($"{playerName} has no more cards left to play!") { }
 }

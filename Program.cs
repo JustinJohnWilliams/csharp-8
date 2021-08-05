@@ -10,19 +10,18 @@ namespace cshaprp_8
         {
             ILogger consoleLogger = new ConsoleLogger();
 
-            consoleLogger.LogMessage($"Player 1 has {Game.Player1.Hand.Count}");
-            consoleLogger.LogMessage($"Player 2 has {Game.Player2.Hand.Count}");
-
-            while(Game.Player1.Hand.Any())
+            while(Game.IsNotOver())
             {
-                consoleLogger.LogMessage($"Player 1 Draws {Game.Player1.Draw()}");
-                consoleLogger.LogMessage($"Player 2 Draws {Game.Player2.Draw()}");
+                var cards = Game.PlayRound();
+                consoleLogger.LogMessage($"{Game.Player1.Name} plays {cards.Player1Card}");
+                consoleLogger.LogMessage($"{Game.Player2.Name} plays {cards.Player2Card}");
+                Game.EvaluateRound(cards);
             }
 
             Console.ReadLine();
 
             consoleLogger.LogMessage($"Attempting a new draw....");
-            consoleLogger.LogMessage($"Player 1 Draws {Game.Player1.Draw()}");
+            consoleLogger.LogMessage($"Player 1 Plays {Game.Player1.PlayCard()}");
 
             consoleLogger.LogMessage($"Player 1 has {Game.Player1.Hand.Count}");
             consoleLogger.LogMessage($"Player 2 has {Game.Player2.Hand.Count}");
